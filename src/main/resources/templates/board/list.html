@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:replace="fragments/common :: head('게시판')">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,17 +9,16 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="starter-template.css" rel="stylesheet">
+    <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
 
-    <title>Hello, Spring Boot!</title>
+    <title>게시판</title>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')">
 </nav>
 
-<main role="main" class="container">
-<div class = "starter-template">
+<div class = "container">
     <h2>게시판</h2>
     <div>총 건수 : <span th:text="${#lists.size(boards)}"></span></div>
     <table class="table">
@@ -51,9 +50,7 @@
         </tr>
         </tbody>
     </table>
-
 </div>
-</main>
 
 
 
