@@ -23,12 +23,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/","/css/**").permitAll()
-                        .anyRequest().authenticated()
+                        .antMatchers("/","/account/register","/css/**").permitAll()
+                        .anyRequest().authenticated().and()
                 )
                 .formLogin((form) -> form
                         .loginPage("/account/login")
-                        .permitAll()
+                        .permitAll().and()
                 )
                 .logout((logout) -> logout.permitAll());
 
@@ -44,10 +44,10 @@ public class WebSecurityConfig {
                 .usersByUsernameQuery("select username,password,enabled "
                         + "from USER "
                         + "where username = ?")
-                .authoritiesByUsernameQuery("select username,name "
-                        + "from USER_ROLE UR inner join USER U on UR.user_id = U.user_id"
-                        + "inner join ROLE R on UR.role_id = R.role_id "
-                        + "where username = ?");
+                .authoritiesByUsernameQuery("select U.username, R.name "
+                        + "from USER_ROLE UR inner join USER U on UR.user_id = U.id "
+                        + "inner join ROLE R on UR.role_id = R.id "
+                        + "where U.username = ?");
     }
 
     @Bean

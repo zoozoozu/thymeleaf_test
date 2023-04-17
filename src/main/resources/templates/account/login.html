@@ -18,15 +18,15 @@
 
 <form class="form-signin" th:action="@{/account/login}" method="post">
   <div class="text-center mb-4">
-    <img class="mb-4" src="https://getbootstrap.com/docs/4.6/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Floating labels</h1>
+    <a th:href="@{/}"><img class="mb-4" src="https://getbootstrap.com/docs/4.6/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"></a>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   </div>
 
   <div th:if="${param.error}" class="alert alert-danger" role="alert">
-    Invalid username and password.
+    유효하지 않은 ID, PASSWORD 입니다.
   </div>
   <div th:if="${param.logout}" div class="alert alert-info" role="alert">
-    You have been logged out.
+    로그아웃이 되었습니다.
   </div>
 
   <div class="form-label-group">
@@ -40,7 +40,8 @@
   </div>
 
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2022</p>
+  <a class="btn btn-lg btn-primary btn-block" th:href="@{/account/register}">회원가입</a>
+
 </form>
 </body>
 
