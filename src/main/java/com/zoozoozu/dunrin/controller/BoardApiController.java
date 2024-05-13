@@ -3,6 +3,7 @@ package com.zoozoozu.dunrin.controller;
 import com.zoozoozu.dunrin.model.Board;
 import com.zoozoozu.dunrin.model.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,6 @@ public class BoardApiController {
     @Autowired
     private BoardRepository repository;
 
-    // Aggregate root
-    // tag::get-aggregate-root[]
     @GetMapping("/boards")
     List<Board> all(
                     @RequestParam(required = false, defaultValue = "") String title,
@@ -28,7 +27,6 @@ public class BoardApiController {
         }
 
     }
-    // end::get-aggregate-root[]
 
     @PostMapping("/boards")
     Board newBoard(@RequestBody Board newBoard) {
@@ -56,6 +54,7 @@ public class BoardApiController {
                 });
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/boards/{id}")
     void deleteBoard(@PathVariable Long id) {
         repository.deleteById(id);

@@ -2,12 +2,14 @@ package com.zoozoozu.dunrin.controller;
 
 import com.zoozoozu.dunrin.model.Board;
 import com.zoozoozu.dunrin.model.repository.BoardRepository;
+import com.zoozoozu.dunrin.service.BoardService;
 import com.zoozoozu.dunrin.validator.BoardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +28,8 @@ public class BoardController {
     private BoardRepository boardRepository;
     @Autowired
     private BoardValidator boardValidator;
+    @Autowired
+    private BoardService boardService;
 
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(size = 2) Pageable pageable,
@@ -43,6 +47,7 @@ public class BoardController {
 
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long id){
+
         if (id == null){
             model.addAttribute("board", new Board());
         }else{
@@ -53,14 +58,18 @@ public class BoardController {
     }
 
     @PostMapping("/form")
-    public String formSubmit(@Valid Board board, BindingResult bindingResult){
+    public String formSubmit(@Valid Board board, BindingResult bindingResult, Authentication authentication){
 
         boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             return "board/form";
         }
 
-        boardRepository.save(board);
+
+
+        String username = authentication.getName();
+        boardService.save(username, board);
+        // boardRepository.save(board);
         return "redirect:/board/list";
     }
 }
